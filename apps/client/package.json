@@ -1,5 +1,5 @@
 {
-  "name": "client",
+  "name": "@voidbound/client",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@voidbound/domain": "workspace:*",
+    "@voidbound/infra": "workspace:*",
     "@voidbound/shared": "workspace:*",
     "@voidbound/ui": "workspace:*",
     "babylonjs": "latest",
