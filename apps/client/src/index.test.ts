@@ -1,7 +1,7 @@
 import { CLIENT } from './index';
 
 describe('Client App', () => {
-  it('should export CLIENT constant', () => {
+  it('должен экспортировать константу CLIENT', () => {
     expect(CLIENT).toBe(true);
   });
 });

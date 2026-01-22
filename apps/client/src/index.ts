@@ -1,2 +1,2 @@
 export const CLIENT = true;
-console.log('Client started');
+console.log('Клиент запущен');

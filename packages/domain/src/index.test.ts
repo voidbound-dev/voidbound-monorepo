@@ -1,7 +1,7 @@
 import { DOMAIN } from './index';
 
 describe('Domain Package', () => {
-  it('should export DOMAIN constant', () => {
+  it('должен экспортировать константу DOMAIN', () => {
     expect(DOMAIN).toBe(true);
   });
 });

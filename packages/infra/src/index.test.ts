@@ -1,7 +1,7 @@
 import { INFRA } from './index';
 
 describe('Infra Package', () => {
-  it('should export INFRA constant', () => {
+  it('должен экспортировать константу INFRA', () => {
     expect(INFRA).toBe(true);
   });
 });
