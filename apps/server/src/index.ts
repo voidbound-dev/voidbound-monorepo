@@ -1,2 +1,2 @@
 export const SERVER = true;
-console.log('Server started');
+console.log('Сервер запущен');

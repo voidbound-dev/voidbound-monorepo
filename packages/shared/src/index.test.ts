@@ -1,7 +1,8 @@
-import { SHARED } from './index';
+import { VERSION } from './index';
 
-describe('Shared', () => {
-  it('should be true', () => {
-    expect(SHARED).toBe(true);
+describe('Shared Package', () => {
+  it('должен иметь определенную версию', () => {
+    expect(VERSION).toBeDefined();
+    expect(typeof VERSION).toBe('string');
   });
 });

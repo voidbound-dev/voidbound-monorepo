@@ -1,7 +1,7 @@
 import { SERVER } from './index';
 
 describe('Server App', () => {
-  it('should export SERVER constant', () => {
+  it('должен экспортировать константу SERVER', () => {
     expect(SERVER).toBe(true);
   });
 });

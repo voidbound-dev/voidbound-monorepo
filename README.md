@@ -29,7 +29,7 @@
 - **State Management:** Zustand или Redux Toolkit.
 
 ### Backend
-- **Language:** Go или Node.js (TypeScript).
+- **Language:** Node.js (TypeScript).
 - **Communication:** WebSockets (Colyseus).
 - **Database:** PostgreSQL + Redis.
 
