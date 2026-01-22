@@ -1,0 +1,24 @@
+{
+  "name": "client",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "lint": "eslint .",
+    "test": "jest"
+  },
+  "dependencies": {
+    "@voidbound/domain": "workspace:*",
+    "@voidbound/shared": "workspace:*",
+    "@voidbound/ui": "workspace:*",
+    "babylonjs": "latest",
+    "react": "latest",
+    "react-dom": "latest"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^5.1.2",
+    "typescript": "^5.0.0",
+    "vite": "latest"
+  }
+}
