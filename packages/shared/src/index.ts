@@ -6,6 +6,7 @@ export * from './models/ItemTypes';
 
 // DTO
 export * from './dto/SocketEvent';
+export * from './dto/inventory/InventoryEvents';
 
 // Константы
 export * from './constants';
