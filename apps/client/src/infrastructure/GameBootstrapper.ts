@@ -46,7 +46,7 @@ export class GameBootstrapper {
       this.movementController.update(deltaTime);
 
       // Обновление визуализации
-      this.characterVisual.update();
+      this.characterVisual.update(deltaTime);
       
       this.gameScene.getScene().render();
     });
