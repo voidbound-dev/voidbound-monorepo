@@ -5,7 +5,7 @@ import { InventoryWindow } from './presentation/ui/inventory/InventoryWindow';
 
 export const CLIENT = true;
 
-const isTest = typeof window !== 'undefined' && (window as any).process?.env?.NODE_ENV === 'test';
+const isTest = typeof window !== 'undefined' && (window as Window & { process?: { env?: { NODE_ENV?: string } } }).process?.env?.NODE_ENV === 'test';
 
 if (typeof window !== 'undefined' && !isTest) {
   const initGame = () => {
