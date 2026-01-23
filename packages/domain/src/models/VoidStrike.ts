@@ -22,6 +22,8 @@ export class VoidStrike implements ISkill {
    * Применение умения.
    */
   public use(_caster: Character, _target?: Coordinates): SkillResult {
+    void _caster;
+    void _target;
     if (!this.isReady()) {
       return SkillResult.fail();
     }
