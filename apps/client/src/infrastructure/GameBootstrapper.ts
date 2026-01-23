@@ -3,6 +3,7 @@ import { GameScene } from '../presentation/GameScene';
 import { CharacterVisual } from '../presentation/CharacterVisual';
 import { Character, Coordinates } from '@voidbound/domain';
 import { PlayerMovementController } from '../application/PlayerMovementController';
+import { SkillController } from '../application/SkillController';
 import { ConsoleLogger } from './ConsoleLogger';
 
 /**
@@ -15,6 +16,7 @@ export class GameBootstrapper {
   private character: Character;
   private characterVisual: CharacterVisual;
   private movementController: PlayerMovementController;
+  private skillController: SkillController;
   private logger: ConsoleLogger;
 
   constructor(canvas: HTMLCanvasElement) {
@@ -32,6 +34,13 @@ export class GameBootstrapper {
       this.character,
       this.logger
     );
+
+    // Инициализация контроллера умений
+    this.skillController = new SkillController(
+      this.gameScene.getScene(),
+      this.character,
+      this.logger
+    );
   }
 
   /**
@@ -44,6 +53,7 @@ export class GameBootstrapper {
 
       // Обновление логики
       this.movementController.update(deltaTime);
+      this.skillController.update(deltaTime);
 
       // Обновление визуализации
       this.characterVisual.update(deltaTime);
