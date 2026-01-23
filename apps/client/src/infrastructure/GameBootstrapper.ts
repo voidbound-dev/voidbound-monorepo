@@ -6,6 +6,8 @@ import { PlayerMovementController } from '../application/PlayerMovementControlle
 import { SkillController } from '../application/SkillController';
 import { InputService } from '../application/InputService';
 import { ConsoleLogger } from './ConsoleLogger';
+import { Inventory, Equipment } from '@voidbound/domain';
+import { InventoryViewModel } from '../application/inventory/InventoryViewModel';
 
 /**
  * Класс для инициализации и запуска игры.
@@ -20,6 +22,7 @@ export class GameBootstrapper {
   private skillController: SkillController;
   private inputService: InputService;
   private logger: ConsoleLogger;
+  private inventoryViewModel: InventoryViewModel;
 
   constructor(canvas: HTMLCanvasElement) {
     this.logger = new ConsoleLogger();
@@ -28,6 +31,20 @@ export class GameBootstrapper {
     
     // Инициализация сервисов
     this.inputService = new InputService(this.gameScene.getScene(), this.logger);
+
+    // Инициализация инвентаря
+    const inventory = new Inventory(20, 100);
+    const equipment = new Equipment();
+    this.inventoryViewModel = new InventoryViewModel(inventory, equipment, this.inputService);
+
+    // Подписка на изменение видимости для блокировки ввода
+    this.inventoryViewModel.subscribe(() => {
+      if (this.inventoryViewModel.isVisible) {
+        this.movementController.setEnabled(false);
+      } else {
+        this.movementController.setEnabled(true);
+      }
+    });
 
     // Инициализация базового персонажа
     this.character = new Character('hero-1', 'Void Walker', new Coordinates(0, 0), 5);
@@ -47,6 +64,10 @@ export class GameBootstrapper {
       this.logger,
       this.inputService
     );
+  }
+
+  public getInventoryViewModel(): InventoryViewModel {
+    return this.inventoryViewModel;
   }
 
   /**

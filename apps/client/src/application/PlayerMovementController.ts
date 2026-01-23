@@ -7,6 +7,7 @@ import { Character, Coordinates, ILogger } from '@voidbound/domain';
  */
 export class PlayerMovementController {
   private _isPointerDown: boolean = false;
+  private _enabled: boolean = true;
 
   constructor(
     private scene: Scene,
@@ -16,11 +17,19 @@ export class PlayerMovementController {
     this.setupInput();
   }
 
+  public setEnabled(enabled: boolean): void {
+    this._enabled = enabled;
+    if (!enabled) {
+      this._isPointerDown = false;
+    }
+  }
+
   /**
    * Настраивает подписку на события мыши.
    */
   private setupInput(): void {
     this.scene.onPointerObservable.add((pointerInfo: PointerInfo) => {
+      if (!this._enabled) return;
       // Нас интересует только левая кнопка мыши
       if (pointerInfo.event.button !== 0) return;
 
