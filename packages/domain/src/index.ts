@@ -1,6 +1,8 @@
 export const DOMAIN = true;
 export { Coordinates } from './models/Coordinates';
 export { Character } from './models/Character';
+export { Enemy, EnemyState } from './models/Enemy';
+export type { EnemyStats } from './models/Enemy';
 export type { ISkill, DamageType } from './models/Skill';
 export { SkillResult } from './models/Skill';
 export { VoidStrike } from './models/VoidStrike';
