@@ -18,7 +18,13 @@
     "react-dom": "latest"
   },
   "devDependencies": {
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.2",
+    "@types/react": "^19.2.9",
+    "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^5.1.2",
+    "identity-obj-proxy": "^3.0.0",
+    "jest-environment-jsdom": "^30.2.0",
     "typescript": "^5.0.0",
     "vite": "latest"
   }

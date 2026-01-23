@@ -1,4 +1,7 @@
+import React from 'react';
+import { createRoot } from 'react-dom/client';
 import { GameBootstrapper } from './infrastructure/GameBootstrapper';
+import { InventoryWindow } from './presentation/ui/inventory/InventoryWindow';
 
 export const CLIENT = true;
 
@@ -18,6 +21,16 @@ if (typeof window !== 'undefined') {
 
     const bootstrapper = new GameBootstrapper(canvas);
     bootstrapper.run();
+
+    // Инициализация React UI
+    const uiContainer = document.createElement('div');
+    uiContainer.id = 'ui-root';
+    document.body.appendChild(uiContainer);
+    
+    const root = createRoot(uiContainer);
+    root.render(
+      React.createElement(InventoryWindow, { viewModel: bootstrapper.getInventoryViewModel() })
+    );
     
     console.log('Voidbound: Chronoscape initialized');
   };
