@@ -5,7 +5,6 @@ export const isValidCoordinates = (coords: unknown): coords is Coordinates => {
   const c = coords as Record<string, unknown>;
   return (
     typeof c['x'] === 'number' &&
-    typeof c['y'] === 'number' &&
-    typeof c['z'] === 'number'
+    typeof c['y'] === 'number'
   );
 };
