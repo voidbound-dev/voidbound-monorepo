@@ -4,6 +4,6 @@ module.exports = {
   testEnvironment: 'node',
   testPathIgnorePatterns: ['/node_modules/', '/dist/'],
   moduleNameMapper: {
-    '^@voidbound/(.*)$': '<rootDir>/packages/$1/src',
+    '^@voidbound/(.*)$': '<rootDir>/../../packages/$1/src',
   },
 };
