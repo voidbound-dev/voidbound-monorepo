@@ -2,7 +2,7 @@ import { Engine, NullEngine, Scene, Camera } from 'babylonjs';
 import { GameScene } from '../GameScene';
 
 describe('GameScene', () => {
-  let engine: Engine;
+  let engine!: Engine;
 
   beforeEach(() => {
     engine = new NullEngine();

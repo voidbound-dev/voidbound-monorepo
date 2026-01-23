@@ -4,8 +4,8 @@ import { CharacterVisual } from '../CharacterVisual';
 import { Character, Coordinates } from '@voidbound/domain';
 
 describe('CharacterVisual', () => {
-  let engine: Engine;
-  let gameScene: GameScene;
+  let engine!: Engine;
+  let gameScene!: GameScene;
 
   beforeEach(() => {
     engine = new NullEngine();
@@ -20,7 +20,8 @@ describe('CharacterVisual', () => {
     const character = new Character('1', 'Hero', new Coordinates(0, 0), 5);
     new CharacterVisual(gameScene.getScene(), character);
     
-    const spriteManager = gameScene.getScene().spriteManagers.find(sm => sm.name === 'CharacterManager');
+    const scene = gameScene.getScene();
+    const spriteManager = scene.spriteManagers!.find(sm => sm.name === 'CharacterManager');
     expect(spriteManager).toBeDefined();
   });
 
