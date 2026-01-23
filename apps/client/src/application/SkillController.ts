@@ -1,6 +1,7 @@
 import { Scene, Vector3 } from 'babylonjs';
 import { Character, ISkill, VoidStrike, ILogger } from '@voidbound/domain';
 import { VoidStrikeVFX } from '../presentation/vfx/VoidStrikeVFX';
+import { IInputService, InputAction } from './IInputService';
 
 /**
  * Контроллер для управления умениями игрока.
@@ -12,7 +13,8 @@ export class SkillController {
   constructor(
     private scene: Scene,
     private character: Character,
-    private logger: ILogger
+    private logger: ILogger,
+    private inputService: IInputService
   ) {
     // Регистрация базового умения Void Strike
     this.skills.set('void-strike', new VoidStrike());
@@ -21,14 +23,11 @@ export class SkillController {
   }
 
   /**
-   * Настройка горячих клавиш.
+   * Настройка горячих клавиш через InputService.
    */
   private setupInput(): void {
-    this.scene.onKeyboardObservable.add((kbInfo) => {
-      // Кнопка 'Q' для Void Strike (в будущем вынести в конфиг)
-      if (kbInfo.type === 1 && kbInfo.event.key.toLowerCase() === 'q') {
-        this.useSkill('void-strike');
-      }
+    this.inputService.onAction(InputAction.USE_SKILL_1, () => {
+      this.useSkill('void-strike');
     });
   }
 
