@@ -8,7 +8,7 @@ import { Coordinates } from './Coordinates';
  */
 export class VoidStrike implements ISkill {
   public readonly id: string = 'void-strike';
-  public readonly name: string = 'Void Strike';
+  public readonly name: string = 'Пустотный удар';
   public readonly cooldown: number = 1.0;
   public readonly radius: number = 2.0;
   

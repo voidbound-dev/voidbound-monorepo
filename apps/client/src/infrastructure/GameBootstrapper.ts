@@ -1,6 +1,7 @@
 import { Engine } from 'babylonjs';
 import { GameScene } from '../presentation/GameScene';
 import { CharacterVisual } from '../presentation/CharacterVisual';
+import { ArenaVisual } from '../presentation/ArenaVisual';
 import { Character, Coordinates } from '@voidbound/domain';
 import { PlayerMovementController } from '../application/PlayerMovementController';
 import { SkillController } from '../application/SkillController';
@@ -16,6 +17,7 @@ import { InventoryViewModel } from '../application/inventory/InventoryViewModel'
 export class GameBootstrapper {
   private engine: Engine;
   private gameScene: GameScene;
+  private arenaVisual: ArenaVisual;
   private character: Character;
   private characterVisual: CharacterVisual;
   private movementController: PlayerMovementController;
@@ -28,6 +30,8 @@ export class GameBootstrapper {
     this.logger = new ConsoleLogger();
     this.engine = new Engine(canvas, true);
     this.gameScene = new GameScene(this.engine);
+    this.arenaVisual = new ArenaVisual(this.gameScene.getScene());
+    this.logger.debug(`Визуализация арены инициализирована: ${this.arenaVisual !== undefined}`);
     
     // Инициализация сервисов
     this.inputService = new InputService(this.gameScene.getScene(), this.logger);

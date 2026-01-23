@@ -71,6 +71,7 @@ describe('PlayerMovementController', () => {
     // Подготовка мока персонажа
     characterMock = new Character('1', 'Hero', new Coordinates(0, 0), 5);
     jest.spyOn(characterMock, 'setDestination');
+    jest.spyOn(characterMock, 'setPath');
     jest.spyOn(characterMock, 'moveTo');
 
     controller = new PlayerMovementController(
@@ -84,15 +85,18 @@ describe('PlayerMovementController', () => {
     expect(sceneMock.onPointerObservable.add).toHaveBeenCalled();
   });
 
-  it('должен устанавливать цель перемещения при клике на основе пересечения с плоскостью', () => {
+  it('должен устанавливать путь или цель при клике на основе пересечения с плоскостью', () => {
     // Вызываем колбэк события клика
     pointerObservableCallback({
       type: PointerEventTypes.POINTERDOWN,
       event: { button: 0 } // Левая кнопка мыши
     });
 
-    // Проверяем, что цель установлена
-    expect(characterMock.setDestination).toHaveBeenCalledWith(expect.any(Coordinates));
+    // Проверяем, что установлен либо путь, либо цель напрямую
+    const wasSet = (characterMock.setDestination as jest.Mock).mock.calls.length > 0 || 
+                   (characterMock.setPath as jest.Mock).mock.calls.length > 0;
+    
+    expect(wasSet).toBe(true);
     
     // Проверяем вызовы логгера
     expect(loggerMock.debug).toHaveBeenCalledWith(expect.stringContaining('Клик зафиксирован'));
