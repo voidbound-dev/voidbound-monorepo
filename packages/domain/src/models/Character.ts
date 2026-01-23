@@ -13,6 +13,8 @@ export interface IMapValidator {
  * Отвечает за состояние и базовую логику перемещения.
  */
 export class Character implements Entity {
+  private _destination: Coordinates | null = null;
+
   constructor(
     public readonly id: string,
     public readonly name: string,
@@ -32,10 +34,25 @@ export class Character implements Entity {
   }
 
   /**
+   * Целевая точка перемещения.
+   */
+  public get destination(): Coordinates | null {
+    return this._destination;
+  }
+
+  /**
    * Скорость перемещения персонажа.
    */
   public get speed(): number {
     return this._speed;
+  }
+
+  /**
+   * Устанавливает новую цель перемещения.
+   * @param target Координаты цели или null для остановки.
+   */
+  public setDestination(target: Coordinates | null): void {
+    this._destination = target;
   }
 
   /**

@@ -2,6 +2,8 @@ import { Engine } from 'babylonjs';
 import { GameScene } from '../presentation/GameScene';
 import { CharacterVisual } from '../presentation/CharacterVisual';
 import { Character, Coordinates } from '@voidbound/domain';
+import { PlayerMovementController } from '../application/PlayerMovementController';
+import { ConsoleLogger } from './ConsoleLogger';
 
 /**
  * Класс для инициализации и запуска игры.
@@ -10,24 +12,42 @@ import { Character, Coordinates } from '@voidbound/domain';
 export class GameBootstrapper {
   private engine: Engine;
   private gameScene: GameScene;
+  private character: Character;
   private characterVisual: CharacterVisual;
+  private movementController: PlayerMovementController;
+  private logger: ConsoleLogger;
 
   constructor(canvas: HTMLCanvasElement) {
+    this.logger = new ConsoleLogger();
     this.engine = new Engine(canvas, true);
     this.gameScene = new GameScene(this.engine);
     
-    // Инициализация базового персонажа для визуализации
-    const character = new Character('hero-1', 'Void Walker', new Coordinates(0, 0), 5);
-    this.characterVisual = new CharacterVisual(this.gameScene.getScene(), character);
+    // Инициализация базового персонажа
+    this.character = new Character('hero-1', 'Void Walker', new Coordinates(0, 0), 5);
+    this.characterVisual = new CharacterVisual(this.gameScene.getScene(), this.character);
+
+    // Инициализация контроллера перемещения
+    this.movementController = new PlayerMovementController(
+      this.gameScene.getScene(), 
+      this.character,
+      this.logger
+    );
   }
 
   /**
    * Запускает цикл рендеринга.
    */
   public run(): void {
+    this.logger.info('Игра запущена');
     this.engine.runRenderLoop(() => {
-      // В будущем здесь будет вызов систем обновления (Update Systems)
+      const deltaTime = this.engine.getDeltaTime() / 1000;
+
+      // Обновление логики
+      this.movementController.update(deltaTime);
+
+      // Обновление визуализации
       this.characterVisual.update();
+      
       this.gameScene.getScene().render();
     });
 
