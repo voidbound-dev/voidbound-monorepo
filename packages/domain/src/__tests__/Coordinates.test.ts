@@ -10,7 +10,7 @@ describe('Value Object Coordinates', () => {
   it('должен быть неизменяемым (immutable)', () => {
     const coords = new Coordinates(10, 20);
     // @ts-expect-error - x is readonly
-    expect(() => { (coords as any).x = 30; }).toThrow();
+    expect(() => { (coords as unknown as Coordinates).x = 30; }).toThrow();
   });
 
   it('должен проверять равенство', () => {
