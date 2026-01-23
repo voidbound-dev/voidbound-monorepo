@@ -60,4 +60,30 @@ describe('Сущность Character', () => {
     expect(character.position.x).toBeCloseTo(1.5);
     expect(character.position.y).toBeCloseTo(2.0);
   });
+
+  describe('Destination (Цель перемещения)', () => {
+    it('должен иметь null в качестве цели по умолчанию', () => {
+      const character = new Character('1', 'Hero', defaultPos, defaultSpeed);
+      expect(character.destination).toBeNull();
+    });
+
+    it('должен корректно устанавливать цель перемещения', () => {
+      const character = new Character('1', 'Hero', defaultPos, defaultSpeed);
+      const target = new Coordinates(10, 10);
+      
+      character.setDestination(target);
+      
+      expect(character.destination).not.toBeNull();
+      expect(character.destination?.equals(target)).toBe(true);
+    });
+
+    it('должен позволять сбрасывать цель в null', () => {
+      const character = new Character('1', 'Hero', defaultPos, defaultSpeed);
+      character.setDestination(new Coordinates(5, 5));
+      
+      character.setDestination(null);
+      
+      expect(character.destination).toBeNull();
+    });
+  });
 });
