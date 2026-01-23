@@ -1,4 +1,4 @@
-import { NullEngine, Engine, Vector3 } from 'babylonjs';
+import { NullEngine, Engine, Vector3, AbstractMesh, ParticleSystem } from 'babylonjs';
 import { GameScene } from '../GameScene';
 import { VoidStrikeVFX } from '../vfx/VoidStrikeVFX';
 
@@ -29,8 +29,8 @@ describe('VoidStrikeVFX', () => {
     if (ps.emitter instanceof Vector3) {
       expect(ps.emitter.x).toBe(position.x);
       expect(ps.emitter.z).toBe(position.z);
-    } else if (ps.emitter && 'position' in ps.emitter) {
-      const emitterPos = (ps.emitter as any).position;
+    } else if (ps.emitter instanceof AbstractMesh) {
+      const emitterPos = ps.emitter.position;
       expect(emitterPos.x).toBe(position.x);
       expect(emitterPos.z).toBe(position.z);
     }
@@ -56,7 +56,12 @@ describe('VoidStrikeVFX', () => {
     
     // Если мы не можем ждать реально, мы можем проверить, что dispose вызывается.
     // Или что система частиц настроена на самоудаление (disposeOnStop = true)
-    expect((ps as any).disposeOnStop).toBe(true);
+    if (ps instanceof ParticleSystem) {
+      expect(ps.disposeOnStop).toBe(true);
+    } else {
+      // Если это не ParticleSystem (маловероятно в данном коде), тест должен упасть или быть пропущен
+      throw new Error('Ожидалась ParticleSystem');
+    }
     done();
   });
 });
