@@ -5,21 +5,21 @@ import { isValidCoordinates } from '../utils';
 
 describe('Shared Package - Модели и DTO', () => {
   describe('Coordinates', () => {
-    it('должен создавать валидные координаты с x, y, z', () => {
-      const coords = createCoordinates(10, -5, 25.5);
-      expect(coords).toEqual({ x: 10, y: -5, z: 25.5 });
+    it('должен создавать валидные координаты с x, y', () => {
+      const coords = createCoordinates(10, -5);
+      expect(coords).toEqual({ x: 10, y: -5 });
     });
 
     it('должен быть неизменяемым по дизайну (readonly свойства)', () => {
-      const coords = createCoordinates(1, 1, 1);
+      const coords = createCoordinates(1, 1);
       // Приводим к mutable-типу для проверки поведения в рантайме без ошибок компиляции
       (coords as unknown as { x: number }).x = 2;
       expect(coords.x).toBe(2);
     });
 
     it('должен корректно валидировать координаты', () => {
-      expect(isValidCoordinates({ x: 1, y: 2, z: 3 })).toBe(true);
-      expect(isValidCoordinates({ x: 1, y: 2 })).toBe(false);
+      expect(isValidCoordinates({ x: 1, y: 2 })).toBe(true);
+      expect(isValidCoordinates({ x: 1 })).toBe(false);
       expect(isValidCoordinates(null)).toBe(false);
       expect(isValidCoordinates('not-coords')).toBe(false);
     });
