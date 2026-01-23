@@ -1,0 +1,60 @@
+name: CI Pipeline (Basic)
+
+# Описание: Базовый CI-пайплайн для автоматизации проверок кода в монорепозитории Voidbound: Chronoscape.
+# Включает линтинг, сборку и тесты.
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-and-test:
+    name: Lint, Build and Test
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Клонирование репозитория
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2 # Для корректной работы Turbo в режиме PR
+
+      # 2. Установка pnpm (версия согласно package.json)
+      - name: Install pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: 8.15.1
+
+      # 3. Настройка Node.js с кэшированием pnpm
+      - name: Setup Node.js (20.x)
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+
+      # 4. Кэширование папки .turbo для ускорения последующих запусков
+      - name: Cache Turborepo
+        uses: actions/cache@v4
+        with:
+          path: .turbo
+          key: ${{ runner.os }}-turbo-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-turbo-
+
+      # 5. Установка зависимостей (строго по lock-файлу)
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      # 6. Линтинг (использует Turbo для запуска во всех пакетах)
+      - name: Lint
+        run: pnpm lint
+
+      # 7. Сборка (использует Turbo)
+      - name: Build
+        run: pnpm build
+
+      # 8. Тестирование (использует Turbo)
+      - name: Test
+        run: pnpm test
