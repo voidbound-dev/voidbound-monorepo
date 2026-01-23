@@ -1,4 +1,4 @@
-name: CI Pipeline (Basic)
+name: CI Pipeline
 
 # Описание: Базовый CI-пайплайн для автоматизации проверок кода в монорепозитории Voidbound: Chronoscape.
 # Включает линтинг, сборку и тесты.
@@ -8,6 +8,10 @@ on:
     branches: [ main ]
   pull_request:
     branches: [ main ]
+
+permissions:
+  pull-requests: write
+  contents: read
 
 jobs:
   build-and-test:
@@ -58,3 +62,24 @@ jobs:
       # 8. Тестирование (использует Turbo)
       - name: Test
         run: pnpm test
+
+      # 9. Комментарий в PR (опционально, GitHub Actions показывают статус автоматически)
+      - name: PR Success Comment
+        if: success() && github.event_name == 'pull_request'
+        uses: thollander/actions-comment-pull-request@v2
+        with:
+          message: |
+            ✅ **CI Pipeline Passed!**
+            - 🔍 **Linting:** OK
+            - 🛠 **Build:** OK
+            - 🧪 **Tests:** OK
+          comment_tag: ci_status
+
+      - name: PR Failure Comment
+        if: failure() && github.event_name == 'pull_request'
+        uses: thollander/actions-comment-pull-request@v2
+        with:
+          message: |
+            ❌ **CI Pipeline Failed!**
+            Пожалуйста, проверьте логи выполнения для исправления ошибок.
+          comment_tag: ci_status

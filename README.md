@@ -1,5 +1,10 @@
 # Voidbound: Chronoscape
 
+![CI Pipeline](https://github.com/voidbound-dev/voidbound-monorepo/actions/workflows/ci.yml/badge.svg)
+[![Lint Status](https://img.shields.io/badge/lint-passing-brightgreen.svg)](#)
+[![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg)](#)
+[![Test Status](https://img.shields.io/badge/tests-passing-brightgreen.svg)](#)
+
 Браузерная Action RPG (ARPG) в стиле dark fantasy, вдохновленная Path of Exile. Ориентирована на глубокую кастомизацию, сложную экономику и бесконечный эндгейм.
 
 ## 🌟 Основные характеристики
