@@ -27,8 +27,12 @@ describe('Shared Package - Модели и DTO', () => {
 
   describe('BaseStats', () => {
     it('должен создавать валидный объект характеристик', () => {
-      const stats = createBaseStats(100, 100, 50, 50, 5);
+      const stats = createBaseStats(10, 20, 30, 40, 100, 100, 50, 50, 5);
       expect(stats).toEqual({
+        strength: 10,
+        agility: 20,
+        intelligence: 30,
+        constitution: 40,
         health: 100,
         maxHealth: 100,
         mana: 50,
