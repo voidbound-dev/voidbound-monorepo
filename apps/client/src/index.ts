@@ -34,7 +34,7 @@ if (typeof window !== 'undefined' && !isTest) {
       React.createElement(InventoryWindow, { viewModel: bootstrapper.getInventoryViewModel() })
     );
     
-    console.log('Voidbound: Chronoscape initialized');
+    console.log('Voidbound: Chronoscape инициализирован');
   };
 
   if (document.readyState === 'complete' || document.readyState === 'interactive') {

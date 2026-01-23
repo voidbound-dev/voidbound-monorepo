@@ -14,6 +14,7 @@ export interface IMapValidator {
  */
 export class Character implements Entity {
   private _destination: Coordinates | null = null;
+  private _path: Coordinates[] = [];
 
   constructor(
     public readonly id: string,
@@ -48,11 +49,28 @@ export class Character implements Entity {
   }
 
   /**
-   * Устанавливает новую цель перемещения.
+   * Текущий путь (очередь точек).
+   */
+  public get path(): ReadonlyArray<Coordinates> {
+    return this._path;
+  }
+
+  /**
+   * Устанавливает новый путь перемещения.
+   * @param path Массив координат.
+   */
+  public setPath(path: Coordinates[]): void {
+    this._path = [...path];
+    this._destination = path.length > 0 ? path[0] : null;
+  }
+
+  /**
+   * Устанавливает новую цель перемещения (сбрасывает путь).
    * @param target Координаты цели или null для остановки.
    */
   public setDestination(target: Coordinates | null): void {
     this._destination = target;
+    this._path = target ? [target] : [];
   }
 
   /**
@@ -67,7 +85,10 @@ export class Character implements Entity {
   public moveTo(target: Coordinates, deltaTime: number, validator?: IMapValidator): void {
     const distance = this._position.distanceTo(target);
     
-    if (distance === 0) return;
+    if (distance === 0) {
+      this.advancePath();
+      return;
+    }
 
     const maxMoveDistance = this._speed * deltaTime;
     
@@ -89,11 +110,21 @@ export class Character implements Entity {
 
     // Валидация перемещения
     if (validator && !validator.isValidPosition(nextPosition)) {
-      // В простейшем случае — просто не двигаемся. 
-      // В будущем здесь может быть поиск пути или скольжение вдоль стен.
       return;
     }
 
     this._position = nextPosition;
+
+    // Если достигли промежуточной цели, переходим к следующей
+    if (this._position.equals(target)) {
+      this.advancePath();
+    }
+  }
+
+  private advancePath(): void {
+    if (this._path.length > 0) {
+      this._path.shift();
+      this._destination = this._path.length > 0 ? this._path[0] : null;
+    }
   }
 }

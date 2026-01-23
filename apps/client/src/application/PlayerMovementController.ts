@@ -1,5 +1,6 @@
 import { Scene, PointerEventTypes, PointerInfo, Plane, Vector3 } from 'babylonjs';
 import { Character, Coordinates, ILogger } from '@voidbound/domain';
+import { GridNavigationService } from './navigation/GridNavigationService';
 
 /**
  * Контроллер для управления перемещением игрока.
@@ -8,12 +9,14 @@ import { Character, Coordinates, ILogger } from '@voidbound/domain';
 export class PlayerMovementController {
   private _isPointerDown: boolean = false;
   private _enabled: boolean = true;
+  private _navigationService: GridNavigationService;
 
   constructor(
     private scene: Scene,
     private character: Character,
     private logger: ILogger
   ) {
+    this._navigationService = new GridNavigationService();
     this.setupInput();
   }
 
@@ -78,8 +81,20 @@ export class PlayerMovementController {
       
       if (isInitialClick) {
         this.logger.info(`Установлена новая цель: x=${target.x.toFixed(2)}, y=${target.y.toFixed(2)}`);
+        
+        // Находим путь по сетке
+        const path = this._navigationService.findPath(this.character.position, target);
+        if (path.length > 0) {
+          this.character.setPath(path);
+        } else {
+          // Если путь не найден (клик в ту же ячейку), просто ставим цель напрямую
+          this.character.setDestination(target);
+        }
+      } else {
+        // При зажатой кнопке (drag) пока просто обновляем цель напрямую для плавности,
+        // либо тоже можно считать путь, но это дороже.
+        this.character.setDestination(target);
       }
-      this.character.setDestination(target);
     }
   }
 
