@@ -4,6 +4,7 @@ import { CharacterVisual } from '../presentation/CharacterVisual';
 import { Character, Coordinates } from '@voidbound/domain';
 import { PlayerMovementController } from '../application/PlayerMovementController';
 import { SkillController } from '../application/SkillController';
+import { InputService } from '../application/InputService';
 import { ConsoleLogger } from './ConsoleLogger';
 
 /**
@@ -17,6 +18,7 @@ export class GameBootstrapper {
   private characterVisual: CharacterVisual;
   private movementController: PlayerMovementController;
   private skillController: SkillController;
+  private inputService: InputService;
   private logger: ConsoleLogger;
 
   constructor(canvas: HTMLCanvasElement) {
@@ -24,6 +26,9 @@ export class GameBootstrapper {
     this.engine = new Engine(canvas, true);
     this.gameScene = new GameScene(this.engine);
     
+    // Инициализация сервисов
+    this.inputService = new InputService(this.gameScene.getScene(), this.logger);
+
     // Инициализация базового персонажа
     this.character = new Character('hero-1', 'Void Walker', new Coordinates(0, 0), 5);
     this.characterVisual = new CharacterVisual(this.gameScene.getScene(), this.character);
@@ -39,7 +44,8 @@ export class GameBootstrapper {
     this.skillController = new SkillController(
       this.gameScene.getScene(),
       this.character,
-      this.logger
+      this.logger,
+      this.inputService
     );
   }
 
